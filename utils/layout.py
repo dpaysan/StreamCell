@@ -1,0 +1,118 @@
+# Copyright (c) 2023 Minniti Julien
+
+
+footer = """<style>
+img {
+            max-width: 100%;
+
+        }
+
+        .headerStyle {
+            transition: transform .2s;
+        }
+
+        .headerStyle:hover {
+
+             transform: scale(1.5);
+            transition: 0.2s;
+        }
+
+        a:link,
+        a:visited {
+            color: blue;
+            background-color: transparent;
+            text-decoration: underline;
+        }
+
+        a2:hover {
+            border-style: solid;
+            },
+        a:active {
+            color: red;
+            background-color: transparent;
+            text-decoration: underline;
+        }
+.footer {
+position: relative;
+width: 100%;
+left: 0;
+bottom: 0;
+background-color: transparent;
+margin-top: auto;
+color: #163172;
+padding: 24px;
+text-align: center;
+}
+</style>
+<div class="footer">
+<p style="font-size:  13px">Copyright (c) 2024 Paysan Daniel.</p>
+<p style="font-size: 13px">This software is distributed under an MIT licence. Please consult the LICENSE file for more details.</p>"""
+
+color_style = """
+    <style>
+    :root {
+      --primary-color: blue;
+    }
+    </style>
+"""
+
+footer_style = f"""
+    <style>
+        MainMenu {{visibility: hidden;}}
+        footer {{visibility: hidden;}}
+        footer:after {{ 
+            visibility: visible;
+            display: block;
+            position: relative;
+            # background-color: red;
+            padding: 5px;
+            top: 2px;
+        }}
+    </style>
+"""
+
+hide_menu_style = """
+        <style>
+        #MainMenu {visibility: hidden;}
+        </style>
+        """
+
+footer = """<style>
+img {
+            max-width: 100%;
+
+        }
+
+        .headerStyle {
+            transition: transform .2s;
+        }
+
+        .headerStyle:hover {
+
+             transform: scale(1.5);
+            transition: 0.2s;
+        }
+.footer {
+position: relative;
+width: 100%;
+left: 0;
+bottom: 0;
+background-color: transparent;
+margin-top: auto;
+color: #163172;
+padding: 24px;
+text-align: center;
+}
+</style>
+<div class="footer">
+<p style="font-size:  13px">Copyright (c) 2025 Paysan Daniel.</p>
+<p style="font-size: 13px">This software is distributed under an MIT licence. Please consult the LICENSE file for more details.</p>
+"""
+
+color_style = """
+    <style>
+    :root {
+      --primary-color: blue;
+    }
+    </style>
+"""
