@@ -1,9 +1,6 @@
 import streamlit as st
 import os
 
-from appdata.datasets import DATASETS
-
-
 def show_file_download(label, path):
     if not os.path.exists(path):
         st.error(f"File not found: `{path}`")
@@ -45,14 +42,14 @@ def downloads_page():
         st.subheader(title)
         if url:
             # Opens in a new tab; the file is fetched directly from your file server/CDN
-            st.link_button(f"Download {title}", url)
+            st.link_button(f"Download {title} (as .h5ad)", url)
         else:
             st.warning("No URL configured. Add it to `st.secrets['files']`.")
 
     c0, c1 = st.columns(2)
     with c0:
-        link_block("scdata (.h5ad)", sc_url)
+        link_block("Single-cell data", sc_url)
     with c1:
-        link_block("spatdata (.h5ad)", sp_url)
+        link_block("Spatial data", sp_url)
 
     st.info("The above downloads the datasets as h5ad files from our fileshare")
