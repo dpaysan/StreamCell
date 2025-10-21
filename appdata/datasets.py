@@ -92,3 +92,6 @@ def get_adata(key: str):
 def available_datasets():
     """List available dataset keys."""
     return list(DATASETS.keys())
+
+def get_dataset_paths():
+    return DATASETS

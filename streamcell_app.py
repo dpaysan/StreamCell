@@ -13,6 +13,7 @@ import time
 import json
 
 from pages.other.contact import contact_page
+from pages.other.download import downloads_page
 from pages.other.home import home_page
 from pages.scrnaseq.home import scdata_home_page
 from pages.spatial.home import spatial_home_page
@@ -81,6 +82,9 @@ elif selected == "scRNA":
 elif selected == "Spatial":
     spatial_home_page()
 
+elif selected == "Downloads":
+    downloads_page()
+
 elif selected == "Contact":
     contact_page()
 
@@ -92,10 +96,16 @@ st.markdown(footer, unsafe_allow_html=True)
 
 # Credit
 
-st.sidebar.title("Credit")
-# Help
-st.sidebar.title("Help")
-st.sidebar.markdown("Documentation", unsafe_allow_html=True)
+st.sidebar.title("🪶 Credit")
+st.sidebar.markdown(
+    """
+If you use any of these data, results, or visualizations for your research,  
+**please cite our paper:**
 
+> **Doe J. et al. (2025)**  
+> __  
+> [📄 Read the paper](https://doi.org/10.1234/example-doi)
+    """,
+    unsafe_allow_html=False,
+)
 
-st.sidebar.title("More")
