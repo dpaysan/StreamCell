@@ -57,14 +57,16 @@ def spatdata_spatial_page():
     st.divider()
     st.markdown("**Graphic controls**")
 
-    c4,c5,c6, c7 = st.columns([1.2, 1.2, 1.2, 1.2])
+    c4,c5,c6, c7, c8 = st.columns([1.2, 1.2, 1.2, 1.2, 1.2])
     with c4:
-        pt_size = st.slider("Point size", 1.0, 10.0, 1.0, 1.0)
+        pt_size = st.slider("Point size", 1.0, 10.0, 5.0, 1.0)
     with c5:
-        alpha = st.slider("Opacity", 0.0, 1.0, 1.0, 0.1)
+        alpha = st.slider("Point opacity", 0.0, 1.0, 1.0, 0.1)
     with c6:
-            vmin = st.text_input("Min. value", placeholder=0, value=0)
+        alpha_img = st.slider("Image opacity", 0.0, 1.0, 0.5, 0.05)
     with c7:
+            vmin = st.text_input("Min. value", placeholder=0, value=0)
+    with c8:
             vmax = st.text_input("Max. value", placeholder="p95", value="p95")
 
     # ---- Apply subsetting (only if categorical filter exists) ----
@@ -105,31 +107,34 @@ def spatdata_spatial_page():
         st.info(
             f"Gene '{gene_text.strip()}' not found in `adata.var_names` (case-insensitive check). Showing uncolored points.")
 
-    if spatdata_view.n_obs == 0:
-        st.warning("No cells to display. Adjust your subset or remove the filter.")
-    else:
-        render_plot(spatdata_view, plot_type, color_arg=color_arg, size=pt_size, fig_w=curr_w, fig_h=curr_h,
-                    alpha=alpha, vmin=vmin, vmax=vmax, tissue = selected_sample)
 
-        # ---- Resize controls BELOW the plot ----
-        st.subheader("Resize plot")
-        # Use dedicated keys so different plot types don't step on each other
-        w_key = f"fig_w_{plot_type}"
-        h_key = f"fig_h_{plot_type}"
+    generate = st.button("🎨 Generate plot", type="primary")
+    if generate:
+        if spatdata_view.n_obs == 0:
+            st.warning("No cells to display. Adjust your subset or remove the filter.")
+        else:
+            render_plot(spatdata_view, plot_type, color_arg=color_arg, size=pt_size, fig_w=curr_w, fig_h=curr_h,
+                        alpha=alpha, vmin=vmin, vmax=vmax, tissue = selected_sample, alpha_img=alpha_img)
 
-        # Initialize slider state if first time on this plot type
-        if w_key not in st.session_state:
-            st.session_state[w_key] = curr_w
-        if h_key not in st.session_state:
-            st.session_state[h_key] = curr_h
+            # ---- Resize controls BELOW the plot ----
+            st.subheader("Resize plot")
+            # Use dedicated keys so different plot types don't step on each other
+            w_key = f"fig_w_{plot_type}"
+            h_key = f"fig_h_{plot_type}"
 
-        def _apply_resize():
-            # Update the per-plot-type map and re-run to draw with new size above
-            st.session_state["figsize_map"][plot_type] = (
-                st.session_state[w_key],
-                st.session_state[h_key],
-            )
-            st.rerun()
+            # Initialize slider state if first time on this plot type
+            if w_key not in st.session_state:
+                st.session_state[w_key] = curr_w
+            if h_key not in st.session_state:
+                st.session_state[h_key] = curr_h
 
-        st.slider("Width (inches)", 4.0, 20.0, st.session_state[w_key], 0.5, key=w_key, on_change=_apply_resize)
-        st.slider("Height (inches)", 3.0, 16.0, st.session_state[h_key], 0.5, key=h_key, on_change=_apply_resize)
+            def _apply_resize():
+                # Update the per-plot-type map and re-run to draw with new size above
+                st.session_state["figsize_map"][plot_type] = (
+                    st.session_state[w_key],
+                    st.session_state[h_key],
+                )
+                st.rerun()
+
+            st.slider("Width (inches)", 4.0, 20.0, st.session_state[w_key], 0.5, key=w_key, on_change=_apply_resize)
+            st.slider("Height (inches)", 3.0, 16.0, st.session_state[h_key], 0.5, key=h_key, on_change=_apply_resize)

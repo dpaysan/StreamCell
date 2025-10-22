@@ -74,7 +74,7 @@ def ensure_groupby_column(adata_view, groupby: str) -> str:
 
 def render_plot(adata_view, plot_type, groupby=None, features=None, fig_w=None, fig_h=None,
                 color_arg=None, size=None,
-                alpha=None, vmin=None, vmax=None,
+                alpha=None, vmin=None, vmax=None, alpha_img=1.0,
                 layer=None, tissue = None):
     with st.spinner("Plotting data — please wait…"):
         plt.close("all")
@@ -158,6 +158,8 @@ def render_plot(adata_view, plot_type, groupby=None, features=None, fig_w=None, 
                                 size=size,
                                 show=False,
                                 cmap="rocket_r",
+                                marker = "s",
+                                alpha_img = alpha_img
                                 )
             fig.set_size_inches(fig_w, fig_h)
         else:
@@ -250,3 +252,12 @@ def gene_positive_mask(adata, gene: str, layer: str | None = None, threshold: fl
     else:
         col = np.asarray(col).ravel()
     return col > float(threshold)
+
+def resolve_gene_list(candidates: List[str], universe: pd.Index) -> Tuple[List[str], List[str]]:
+    present = [g for g in candidates if g in universe]
+    missing = [g for g in candidates if g not in universe]
+    return present, missing
+
+def get_numeric_obs(df: pd.DataFrame) -> List[str]:
+    num = [c for c in df.columns if pd.api.types.is_numeric_dtype(df[c])]
+    return sorted(num)

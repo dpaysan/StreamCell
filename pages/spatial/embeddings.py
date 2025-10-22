@@ -113,31 +113,33 @@ def spatdata_embedding_page():
         st.info(
             f"Gene '{gene_text.strip()}' not found in `adata.var_names` (case-insensitive check). Showing uncolored points.")
 
-    if spatdata_view.n_obs == 0:
-        st.warning("No cells to display. Adjust your subset or remove the filter.")
-    else:
-        render_plot(spatdata_view, plot_type, color_arg=color_arg, size=pt_size, fig_w=curr_w, fig_h=curr_h,
-                    alpha=alpha, vmin=vmin, vmax=vmax)
+    generate = st.button("🎨 Generate plot", type="primary")
+    if generate:
+        if spatdata_view.n_obs == 0:
+            st.warning("No cells to display. Adjust your subset or remove the filter.")
+        else:
+            render_plot(spatdata_view, plot_type, color_arg=color_arg, size=pt_size, fig_w=curr_w, fig_h=curr_h,
+                        alpha=alpha, vmin=vmin, vmax=vmax)
 
-        # ---- Resize controls BELOW the plot ----
-        st.subheader("Resize plot")
-        # Use dedicated keys so different plot types don't step on each other
-        w_key = f"fig_w_{plot_type}"
-        h_key = f"fig_h_{plot_type}"
+            # ---- Resize controls BELOW the plot ----
+            st.subheader("Resize plot")
+            # Use dedicated keys so different plot types don't step on each other
+            w_key = f"fig_w_{plot_type}"
+            h_key = f"fig_h_{plot_type}"
 
-        # Initialize slider state if first time on this plot type
-        if w_key not in st.session_state:
-            st.session_state[w_key] = curr_w
-        if h_key not in st.session_state:
-            st.session_state[h_key] = curr_h
+            # Initialize slider state if first time on this plot type
+            if w_key not in st.session_state:
+                st.session_state[w_key] = curr_w
+            if h_key not in st.session_state:
+                st.session_state[h_key] = curr_h
 
-        def _apply_resize():
-            # Update the per-plot-type map and re-run to draw with new size above
-            st.session_state["figsize_map"][plot_type] = (
-                st.session_state[w_key],
-                st.session_state[h_key],
-            )
-            st.rerun()
+            def _apply_resize():
+                # Update the per-plot-type map and re-run to draw with new size above
+                st.session_state["figsize_map"][plot_type] = (
+                    st.session_state[w_key],
+                    st.session_state[h_key],
+                )
+                st.rerun()
 
-        st.slider("Width (inches)", 4.0, 20.0, st.session_state[w_key], 0.5, key=w_key, on_change=_apply_resize)
-        st.slider("Height (inches)", 3.0, 16.0, st.session_state[h_key], 0.5, key=h_key, on_change=_apply_resize)
+            st.slider("Width (inches)", 4.0, 20.0, st.session_state[w_key], 0.5, key=w_key, on_change=_apply_resize)
+            st.slider("Height (inches)", 3.0, 16.0, st.session_state[h_key], 0.5, key=h_key, on_change=_apply_resize)

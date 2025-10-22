@@ -28,4 +28,4 @@ def contact_page():
     - **Documentation:** [Project Wiki](https://github.com/YourUsername/YourRepoName/wiki)
     """)
 
-    st.caption(f"© {datetime.now().year} Your Organization — built with ❤️ and Streamlit")
+    st.caption(f"© {datetime.now().year} Daniel Paysan — built with ❤️ and Streamlit")
